@@ -51,8 +51,8 @@ class RecordController extends Controller
 			if($record->isOK()) 
 			{
 				$record->add($data);
-				if($record->commit()) return redirect()->back()->withSuccess('Client record inserted');
-				else return redirect()->back('/new')->withError('Error inserting client record');
+				if($record->commit()) return redirect('/new')->withSuccess('Client record inserted');
+				else return redirect('/new')->withError('Error inserting client record');
 			}
 		}
 		else return redirect('/new')->withError('Data validation error.');
