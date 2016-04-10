@@ -1,27 +1,51 @@
-# Laravel PHP Framework
+# CRUD-laravel
+A simple CRUD on Laravel that uses a CSV file to store the data and currently has only create and read function.
+# Create record
+    
+    GET FORM
+    api: /new
+    controller function: RecordController@getNew
+    display view: formdata.new
+    
+    POST FORM
+    api: /new
+    controller function: RecordController@postNew
+    operation: Record insertion to the file and return error/success message 
+    redirect url: /new
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+# View records
+    
+    api: /view
+    controller function: RecordController@getView
+    display view: formdata.view
+    operation: Fetch all records and return paginated data
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+# Data Model
+    custom class: CSV
+    filename: CSV.php
+    namespace: App
+    location: app/CSV.php
+    This is a custom made class that opens (or creates if not exist) a file of given name on given location at "a+" mode.
+    isOK() method returns a boolean denoting if the file was successfully opened or not.
+    The records are fetched and stored in an array which can be accessed publicly using the all() method.
+    Deletion and update can be done with the index(or line number) using delete() and update() method.
+    Insertion of a new item can be done using the add() method. 
+    commit() method must be called for the changes to be written on the file.
+    
+# Client side validation
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+    Client side validation in the new entry form includes use of jquery to add 'required' attribute,defining type of input field as 'email' and masking of inputs fields like phone numbers, date of birth.
+    
+# Server side validation
 
-## Official Documentation
+    An private array of keys, indicating which fields are required and which are not, is used to validate if all the required fields are received.The private method validateRequiredFields() of the Record controller performs the job of validation.
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+# View heirarchy
+    Root view: template.blade.php
+        (contains the header and extends menu.blade.php and is included in all other subviews.)
+    included view: menu.blade.php
+        (contains the left navigation bar that is to be seen on every page with other template.)
+    extended views: 
+        location: formdata/
+        views: new.blade.php and view.blade.php
+        (contains the page specific content,toolbar, javascript and css.)
