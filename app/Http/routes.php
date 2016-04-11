@@ -11,4 +11,4 @@
 |
 */
 
-Route::controller('/', "RecordController");
+Route::controller('/', 'RecordController');
